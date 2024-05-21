@@ -69,16 +69,17 @@ container.insertAdjacentHTML("afterbegin", createMarkup(images));
 container.addEventListener("click", handleGetImage);
 
 function handleGetImage(evt) {
-  if (evt.currentTarget === evt.target) {
+  evt.preventDefault();
+
+  if (evt.target.nodeName !== "IMG") {
     return;
   }
 
-  const currentImage = evt.target
-    .closest(".gallery-item")
-    .querySelector(".gallery-image");
-  const imageSource = currentImage.dataset.source;
+  const imageSource = evt.target.dataset.source;
+  const imageAlt = evt.target.alt;
+
   const instance = basicLightbox.create(`
-	<img src="${imageSource}" >
+	<img src="${imageSource}" alt="${imageAlt}" >
 `);
   instance.show();
 }
